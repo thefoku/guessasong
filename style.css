@@ -1,0 +1,75 @@
+html{ 
+    padding: 10px 10px;
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgb(149, 147, 177) 0%, rgba(9,121,77,1) 35%, rgba(0,212,255,1) 100%);
+}
+ul,li {
+    list-style-type: none;
+  }
+
+  ul li button {
+    border:none;
+    background:transparent;
+    color:red;
+    cursor: pointer;
+
+    right: 15vh;
+  }
+
+  ul li {
+    border:1px solid black;
+    border-radius:30px;
+    padding:5px 10px;
+    margin: 5px 0px;
+    width:80vh;
+    background:#5272725e;
+}
+
+
+.container {
+width:100vh;
+height:85vh;
+background-color:rgba(156, 222, 214, 0.184)!important;
+color:white;
+border: 1px solid grey;
+margin:auto;
+border-radius:30px;
+display: flex;
+flex-direction: column;
+/* position: relative; */
+
+}
+
+.livechat {
+    height:100vh;
+    border-radius:30px;
+    overflow:auto;
+}
+
+
+#message1 {
+    width: 60vh;
+    border-radius: 30px;
+
+    padding: 10px 10px;
+}
+
+#btn {
+    width:25vh;
+    border-radius: 30px;
+
+    padding: 10px 10px;
+}
+
+#input-btn {
+    position: absolute;
+    bottom: 0px;
+    padding:10px 10px;
+    text-align: center;
+    margin:auto;
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Live Chat</title>
+</head>
+<body>
+ <div class="container">
+        <div class="livechat">
+            
+            <ul id="chatWindow">
+
+            </ul>
+        </div>
+        <div id="input-btn">
+            <input type="text" id="message1" placeholder="Enter your message">
+            <button id="btn">Send</button>
+            
+        </div>
+        
+
+        
+
+    </div>
+    <div>
+        <p>Кнопки админки</p>
+        <button id="addZalupa">Add Zalupa</button>
+        <button id="clearBtn">Clear Database</button>
+        <ul><p>Добавить: </p>
+        <li>Чтобы чат скролился сращу вниз при загрузке</li>
+        <li>Нижние границы ввода текста</li>
+        <li>Найти почему можно удалять только первое сообщение. Дело в ID? Он находит первый по ID элемент?</li>
+        
+        </ul>
+    </div>
+ 
+
+<script src="livechat.js"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+    import { getDatabase, ref, set , onValue, push, update, child, onChildAdded, remove, onChildRemoved} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    
+ 
+
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRMqGQ1Xvt4Fy_QMxXSf-tSF-rceCjmG0",
+      authDomain: "livechat-test123.firebaseapp.com",
+     // databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app",
+      databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app/",
+      projectId: "livechat-test123",
+      storageBucket: "livechat-test123.appspot.com",
+      messagingSenderId: "257544943213",
+      appId: "1:257544943213:web:b5b35aacc3cda5fcaf7164",
+      measurementId: "G-L0H5NGSXMK"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    
+
+    // Set userName
+    let userName = "kuki" //prompt('Enter username');
+
+    let btn = document.getElementById("btn");
+   
+//     function removeMessage(Key){
+//     remove(ref(database, '/message/' + Key));
+// };
+
+
+//     btn.addEventListener('keypress', function (e) {
+//   if (e.key === 'Enter') {
+//     sendTextMessage();
+//   }
+// });
+
+
+//     onValue(ref(database,"messages") , function (snapshot) {
+//     let html ="";
+//     html += "<li>";
+//         html+= snapshot.val().sender + ": " + snapshot.val().message;
+//     html +="</li>";
+
+//     document.getElementById("chatWindow").innerHTML += html;
+// })
+
+
+// Добавить возможность читать из базы сообщения, и отображать их, не смотря на наличие случайного newPostKey
+
+// Reference
+// export declare function ref(db: Database, path?: string): DatabaseReference;
+
+//child: Gets a Reference for the location at the specified relative path.
+//The relative path can either be a simple child name (for example, "ada") or a deeper slash-separated path (for example, "ada/name/first").
+// export declare function child(parent: DatabaseReference, path: string): DatabaseReference;
+
+const messagePath = ref(database, 'Messages');
+//onValue - previous option
+onChildAdded(messagePath, (snapshot) => {
+  const data = snapshot.val();
+// let newPostKey = push(ref(database), 'Messages').key;
+// Поменять на нормальную функцию добавления li как child к ul
+  let html ="";
+    html += `<li id="` + snapshot.key+ `">`;
+        html+= data.sender + ": " + data.message;
+        if (data.sender == userName){
+            html+= `      <button id="deleteBtn" data-id="` + snapshot.key + `">&#10005;</button>`;
+            // html += "<button data-id='" + "'>"
+                // html += "&#10005;"
+                // html += </button>
+        }   
+    html +="</li>";
+
+    document.getElementById("chatWindow").innerHTML += html;
+    let deleteButton = document.getElementById("deleteBtn")
+    deleteButton.addEventListener('click', deleteMessage);
+console.log(snapshot.key);
+});
+
+
+
+function deleteMessage() {
+    //console.log(typeof self)
+   let messageID = this.getAttribute("data-id");
+   console.log(messageID + "messageID")
+   // remove(child(ref(database, 'Message'), messageID));
+    remove(child(messagePath, messageID ));
+    console.log('Delete button was clicked');
+}
+
+// Maybe add below to the deleteMessage function?
+onChildRemoved(messagePath, (snapshot) => {
+   document.getElementById(snapshot.key).innerHTML = "Message was deleted.";
+})
+
+// const starCountRef = ref(db, 'posts/' + postId + '/starCount');
+// onValue(starCountRef, (snapshot) => {
+//   const data = snapshot.val();
+//   updateStarCount(postElement, data);
+// });
+
+
+// let form=document.getElementById("form");
+// function submitForm(event){
+//    //Preventing page refresh
+//    event.preventDefault();
+// }
+// //Calling a function during form submission.
+// form.addEventListener('submit', submitForm);
+
+
+
+function sendTextMessage() {
+    console.log(message1.value);
+    console.log('Btn was clicked!');
+
+    if (message1.value === "") {
+    }
+    else {
+    let message = document.getElementById("message1").value;
+
+    const newPostKey = push(child(ref(database), 'Messages')).key;
+    // console.log('---------------')
+    // console.log('NewPostKey below: ')
+    // console.log(newPostKey);
+    // console.log('---------------')
+
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    const postData = {
+    'sender': userName,
+    'message': message
+  };
+
+  updates['/Messages/' + newPostKey] = postData;
+message1.value = '';
+
+  return push(messagePath, postData);
+  /// update(ref(database), updates);
+
+  // Correct function to write and overwrite one value
+    // set(ref(database, 'messages'), {
+    // 'sender': userName,
+    // 'message': message
+    // });
+}
+};
+
+
+
+
+
+
+btn.addEventListener('click', sendTextMessage);
+
+btn.addEventListener("keypress", function(e) {
+if (e.key === "Enter") {
+sendTextMessage();
+}
+});
+
+function addZalupa(){
+ //   let post = push(child(ref(database, 'messages'),'/messages/')).key
+let pushData = {
+    'sender': "userName",
+    'message': "message"
+  };
+
+    push(messagePath, pushData);
+    console.log('Penis')
+ //   console.log('Post ID: ' + post)
+}
+
+function clear() {
+    set(ref(database), null);
+    console.log('Database cleared')
+}
+
+//-O0LHME3UkKkL6d-sB48
+
+let addZalupaBtn = document.getElementById("addZalupa")
+let clearNtm = document.getElementById('clearBtn')
+
+
+addZalupaBtn.addEventListener('click', addZalupa);
+clearNtm.addEventListener('click', clear);
+
+console.log(ref(database, '/messages/'))
+
+</script>
+
+
+  </body>
+</html>
