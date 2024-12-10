@@ -1,0 +1,27 @@
+{
+  "name": "guessasong",
+  "version": "1.0.0",
+  "description": "Guess a song from your Spotify playlists",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thefoku/guessasong.git"
+  },
+  "keywords": [
+    "guess",
+    "song",
+    "spotify"
+  ],
+  "author": "Roman Kargin",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/thefoku/guessasong/issues"
+  },
+  "homepage": "https://github.com/thefoku/guessasong#readme",
+  "dependencies": {
+    "firebase": "^11.0.2"
+  }
+}

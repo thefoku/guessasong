@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Live Chat</title>
 </head>
 <body>
+  <header>
+    <nav class="nav-menu">
+        <ul class="nav-menu-list"> 
+            <li class="nav-menu-item"><a href="index.html">Home</a></li>
+            <li class="nav-menu-item"><a href="guessasong.html">Guess a song</a></li>
+            <li class="nav-menu-item"><a href="password.html">Page with password</a></li>
+        </ul>
+    </nav>
+</header>
  <div class="container">
-        <div class="livechat">
-            
-            <ul id="chatWindow">
-
-            </ul>
+        <div class="livechat-container">
+          <div class="livechat-inner">
+              <ul id="chatWindow">
+              </ul>
+          
+            <div id="input-btn">
+                <input type="text" id="message1" placeholder="Enter your message">
+                <button id="sendBtn">Send</button>
+                
+            </div>
         </div>
-        <div id="input-btn">
-            <input type="text" id="message1" placeholder="Enter your message">
-            <button id="btn">Send</button>
-            
-        </div>
-        
-
-        
-
     </div>
     <div>
         <p>Кнопки админки</p>
@@ -37,12 +42,12 @@
     </div>
  
 
-<script src="livechat.js"></script>
+<!-- <script src="livechat.js"></script> -->
 <script type="module">
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-    import { getDatabase, ref, set , onValue, push, update, child, onChildAdded, remove, onChildRemoved} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+    import { getDatabase, ref, set , onValue, push, update, child, onChildAdded, remove, onChildRemoved} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
@@ -53,17 +58,30 @@
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCRMqGQ1Xvt4Fy_QMxXSf-tSF-rceCjmG0",
-      authDomain: "livechat-test123.firebaseapp.com",
-     // databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app",
-      databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app/",
-      projectId: "livechat-test123",
-      storageBucket: "livechat-test123.appspot.com",
-      messagingSenderId: "257544943213",
-      appId: "1:257544943213:web:b5b35aacc3cda5fcaf7164",
-      measurementId: "G-L0H5NGSXMK"
-    };
+    // const firebaseConfig = {
+    //   apiKey: "AIzaSyCRMqGQ1Xvt4Fy_QMxXSf-tSF-rceCjmG0",
+    //   authDomain: "livechat-test123.firebaseapp.com",
+    //  // databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app",
+    //   databaseURL: "https://livechat-test123-default-rtdb.europe-west1.firebasedatabase.app/",
+    //   projectId: "livechat-test123",
+    //   storageBucket: "livechat-test123.appspot.com",
+    //   messagingSenderId: "257544943213",
+    //   appId: "1:257544943213:web:b5b35aacc3cda5fcaf7164",
+    //   measurementId: "G-L0H5NGSXMK"
+    // };
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyANvzNd90oGUZEMjX-UOhwYWwmF7B5IsdU",
+    authDomain: "spotify-app-24878.firebaseapp.com",
+    databaseURL: "https://spotify-app-24878-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "spotify-app-24878",
+    storageBucket: "spotify-app-24878.firebasestorage.app",
+    messagingSenderId: "160239669211",
+    appId: "1:160239669211:web:e5447c636846bc7434a1fe",
+    measurementId: "G-S5NHBBFPYB"
+  };
+
+  
   
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -74,7 +92,7 @@
     // Set userName
     let userName = "kuki" //prompt('Enter username');
 
-    let btn = document.getElementById("btn");
+    let sendBtn = document.getElementById("sendBtn");
    
 //     function removeMessage(Key){
 //     remove(ref(database, '/message/' + Key));
@@ -205,9 +223,9 @@ message1.value = '';
 
 
 
-btn.addEventListener('click', sendTextMessage);
+sendBtn.addEventListener('click', sendTextMessage);
 
-btn.addEventListener("keypress", function(e) {
+document.addEventListener("keypress", function(e) {
 if (e.key === "Enter") {
 sendTextMessage();
 }
