@@ -125,10 +125,17 @@ function populateUI(profile) {
 }
 
 function showPlaylists(playlists) {
+    const playlistsList = document.querySelector('#playlists');
+    playlists.items.forEach(item => {
+        let newElement = document.createElement('li');
+        newElement.innerText = item.name;
+        playlistsList.append(newElement);
+    })
     // const playlists = document.querySelector('#playlists');
     // let newElement = document.createElement('li');
     // newElement.innerText = ``;
     // playlists.append(newElement)
+    console.log(playlists)
     console.log(playlists.items)
     console.log('playlists above')
 }
